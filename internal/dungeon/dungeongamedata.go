@@ -1,23 +1,27 @@
 package dungeon
 
 import (
+	"github.com/gopxl/pixel/v2"
 	"github.com/derekwaters/dungeondelver/internal/framework"
 )
 
 type DungeonGameData struct {
-	
-	framework.PixelGameData
-	
 	score			int
 }
 
-
-func (game DungeonGameData) Init() {
-	game.Log(":: Initialising Dungeon")
-	debugScene := DungeonDebugScene{}
-	roomScene := DungeonRoomScene{}
-	game.AddScene("debug", debugScene)
-	game.AddScene("room", roomScene)
+func (game DungeonGameData) Init(controller *framework.PixelGameController) {
+	controller.Log("--- Initialising Dungeon ---")
+	var debugScene DungeonDebugScene
+	var roomScene DungeonRoomScene
+	controller.AddScene("debug", debugScene)
+	controller.AddScene("room", roomScene)
 }
 
+func (game DungeonGameData) GetTitle() string {
+	return "Welcome To The Dungeon!"
+}
+
+func (game DungeonGameData) GetBounds() pixel.Rect {
+	return pixel.R(0, 0, 1200, 960)
+}
 

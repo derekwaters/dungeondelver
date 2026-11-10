@@ -8,9 +8,11 @@ import (
 
 
 type DungeonDebugScene struct {
-	framework.PixelGameScene
 }
 
-func (scene DungeonDebugScene) render(win *opengl.Window, dt float64) {
+func (scene DungeonDebugScene) Render(game *framework.PixelGameController, win *opengl.Window, dt float64) {
 	win.Clear(colornames.Blue)
+}
+
+func (scene DungeonDebugScene) HandleKey(game *framework.PixelGameController, some_key int, dt float64) {
 }

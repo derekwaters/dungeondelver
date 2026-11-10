@@ -3,20 +3,17 @@ package main
 import(
 	"fmt"
 	"github.com/derekwaters/dungeondelver/internal/dungeon"
+	"github.com/derekwaters/dungeondelver/internal/framework"
 )
 
 func main() {
 	fmt.Println("--- Starting The Game ---")
 
-	fmt.Println(dungeon.GetTileset())
-
-	theGame = DungeonGameData {
-		Title: "My Dungeon Game",
-		Bounds: pixel.R(0, 0, 1200, 960),
-		VSync: true,
-		debugMode: true,
-	}
-	theGame.Launch()
+	var theData dungeon.DungeonGameData
+	var theGame framework.PixelGameController
+	fmt.Println("--- Launching The Game ---")
+	theGame.DebugMode = true
+	theGame.Launch(theData)
 
 	fmt.Println("---  Ending The Game  ---")
 }
