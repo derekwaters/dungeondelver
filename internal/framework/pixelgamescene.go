@@ -6,6 +6,7 @@ import (
 )
 
 type PixelGameScene interface {
+	Init(game *PixelGameController)
 	Render(game *PixelGameController, win *opengl.Window, dt float64)
 	HandleKey(game *PixelGameController, some_key int, dt float64)
 }

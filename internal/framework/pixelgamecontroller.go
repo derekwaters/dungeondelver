@@ -3,10 +3,15 @@ package framework
 import (
 	"fmt"
 	"time"
-	// "reflect"
-	
-	// "github.com/gopxl/pixel/v2"
+	"os"
+	"image"
+	"io/ioutil"
+
+	"github.com/gopxl/pixel/v2"
 	"github.com/gopxl/pixel/v2/backends/opengl"
+	"github.com/gopxl/pixel/v2/ext/text"
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font"
 )
 
 type PixelGameController struct {
@@ -57,6 +62,52 @@ func (game *PixelGameController) SetScene(name string) {
 	}
 }
 
+func (game *PixelGameController) LoadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
+}
+
+func (game *PixelGameController) LoadFont(path string, size float64) (*text.Atlas, error) {
+	face, err := game.LoadTTF(path, size)
+	if err != nil {
+		return nil, err
+	}
+	return text.NewAtlas(face, text.ASCII), nil
+}
+
+func (game *PixelGameController) LoadTTF(path string, size float64) (font.Face, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+
+	font, err := truetype.Parse(bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return truetype.NewFace(font, &truetype.Options{
+		Size:              size,
+		GlyphCacheEntries: 1,
+	}), nil
+}
+
+
+
 func (game *PixelGameController) Log(msg ...interface{}) {
 	if (game.DebugMode) {
 		fmt.Println(msg)
@@ -66,6 +117,10 @@ func (game *PixelGameController) Log(msg ...interface{}) {
 
 func (game *PixelGameController) Init() {
 	game.gameData.Init(game)
+	// Init all the scenes
+	for _, scene := range game.Scenes {
+		scene.Init(game)
+	}
 }
 
 func (game *PixelGameController) DoRun() {
@@ -87,9 +142,9 @@ func (game *PixelGameController) DoRun() {
 
 	win.SetSmooth(true)
 
-	game.Log(":: About to Init")
+	game.Log(":: About to Init Game")
 	game.Init()
-	game.Log(":: Init Finished")
+	game.Log(":: Init Game Finished")
 
 	last := time.Now()
 	for !win.Closed() {

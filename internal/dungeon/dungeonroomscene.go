@@ -10,6 +10,10 @@ import (
 type DungeonRoomScene struct {
 }
 
+func (scene DungeonRoomScene) Init(game *framework.PixelGameController) {
+	
+}
+
 func (scene DungeonRoomScene) Render(game *framework.PixelGameController, win *opengl.Window, dt float64) {
 	win.Clear(colornames.Green)
 }

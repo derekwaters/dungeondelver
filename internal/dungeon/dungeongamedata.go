@@ -11,8 +11,11 @@ type DungeonGameData struct {
 
 func (game DungeonGameData) Init(controller *framework.PixelGameController) {
 	controller.Log("--- Initialising Dungeon ---")
+	menuData := NewDungeonMenuData(controller)
+	menuScene := framework.NewPixelMenuScene(menuData)
 	var debugScene DungeonDebugScene
 	var roomScene DungeonRoomScene
+	controller.AddScene("menu", menuScene)
 	controller.AddScene("debug", debugScene)
 	controller.AddScene("room", roomScene)
 }
