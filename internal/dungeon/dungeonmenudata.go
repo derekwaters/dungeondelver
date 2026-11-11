@@ -13,8 +13,8 @@ func NewDungeonMenuData(controller *framework.PixelGameController) framework.Pix
 	}
 	data := framework.PixelMenuData{
 		BackgroundColor: colornames.Midnightblue,
-		MenuTextColor: colornames.Seagreen,
-		BackgroundImageTag: "",
+		MenuTextColor: colornames.Darkred,
+		BackgroundImageTag: "menubg",
 		MenuFontTag: "menu",
 		TitleFontTag: "menutitle",
 		Title: "Delve The Dungeon",

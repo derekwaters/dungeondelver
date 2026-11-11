@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"image/color"
 
+	_ "image/jpeg"
+
 	"github.com/gopxl/pixel/v2"
 	"github.com/gopxl/pixel/v2/ext/text"
 	"github.com/golang/freetype/truetype"

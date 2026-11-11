@@ -12,6 +12,7 @@ import (
 type PixelMenuScene struct {
 	data					PixelMenuData
 	bgSprite				*pixel.Sprite
+	bgBounds				pixel.Rect
 	currentMenuSelection	int
 	titleText				*text.Text
 	menuText				*text.Text
@@ -28,16 +29,17 @@ func (scene *PixelMenuScene) Init(game *PixelGameController) {
 	if len(scene.data.BackgroundImageTag) > 0 {
 		bgImage := game.Resources.GetPicture(scene.data.BackgroundImageTag)
 		if bgImage != nil {
-			scene.bgSprite = pixel.NewSprite(bgImage, bgImage.Bounds())
+			scene.bgBounds = bgImage.Bounds()
+			scene.bgSprite = pixel.NewSprite(bgImage, scene.bgBounds)
 		}
 	}
 	scene.currentMenuSelection = 0
 	scene.titleText = game.Resources.GenerateTextElement(
-		pixel.V(60, 100), 
+		pixel.V(60, 700), 
 		scene.data.TitleFontTag, 
 		scene.data.MenuTextColor)
 	scene.menuText = game.Resources.GenerateTextElement(
-		pixel.V(60, 400), 
+		pixel.V(60, 300), 
 		scene.data.MenuFontTag,
 		scene.data.MenuTextColor)
 }
@@ -46,7 +48,8 @@ func (scene *PixelMenuScene) Render(game *PixelGameController, win *opengl.Windo
 	win.Clear(scene.data.BackgroundColor)
 
 	if scene.bgSprite != nil {
-		scene.bgSprite.Draw(win, pixel.IM)
+		scaleFactor := win.Bounds().H() / scene.bgBounds.H()
+		scene.bgSprite.Draw(win, pixel.IM.Scaled(pixel.V(0.0, 0.0), scaleFactor).Moved(win.Bounds().Center()))
 	}
 
 	// Now draw the menu text

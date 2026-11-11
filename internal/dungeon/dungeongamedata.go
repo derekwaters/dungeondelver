@@ -14,6 +14,7 @@ func (game DungeonGameData) Init(controller *framework.PixelGameController) {
 	// Load Resources
 	controller.Resources.AddFont("menu", "resources/fonts/ancient-modern-tales.ttf", 40)
 	controller.Resources.AddFont("menutitle", "resources/fonts/ancient-modern-tales.ttf", 60)
+	controller.Resources.AddPicture("menubg", "resources/pictures/menubg.jpg")
 	// Create Scenes
 	menuData := NewDungeonMenuData(controller)
 	menuScene := framework.NewPixelMenuScene(menuData)
