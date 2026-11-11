@@ -1,7 +1,6 @@
 package framework
 
 import (
-	"github.com/gopxl/pixel/v2/ext/text"
 	"image/color"
 )
 
@@ -21,13 +20,14 @@ var PixelMenuSelectionName = map[PixelMenuSelection]string{
 	PixelMenuSelection_Quit:		"Quit",
 }
 
-
-type PixelMenuData interface {
-	GetBackgroundColor() color.RGBA
-	GetBackgroundImagePath() string
-	GetMenuFont() *text.Atlas
-	GetTitle() string
-	GetMenuOptions() ([]PixelMenuSelection)
-	GetAboutSceneName() string
-	// GetOptionsDefs()
+type PixelMenuData struct {
+	BackgroundColor	color.RGBA
+	MenuTextColor color.RGBA
+	BackgroundImageTag	string
+	TitleFontTag string
+	MenuFontTag	string
+	Title string
+	MenuOptions []PixelMenuSelection
+	NewGameSceneName string
+	AboutSceneName string
 }

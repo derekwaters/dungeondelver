@@ -18,5 +18,5 @@ func (scene DungeonDebugScene) Render(game *framework.PixelGameController, win *
 	win.Clear(colornames.Blue)
 }
 
-func (scene DungeonDebugScene) HandleKey(game *framework.PixelGameController, some_key int, dt float64) {
+func (scene DungeonDebugScene) HandleKey(game *framework.PixelGameController, win *opengl.Window, dt float64) {
 }

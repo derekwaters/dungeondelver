@@ -3,15 +3,10 @@ package framework
 import (
 	"fmt"
 	"time"
-	"os"
-	"image"
-	"io/ioutil"
 
-	"github.com/gopxl/pixel/v2"
+	// "github.com/gopxl/pixel/v2"
 	"github.com/gopxl/pixel/v2/backends/opengl"
-	"github.com/gopxl/pixel/v2/ext/text"
-	"github.com/golang/freetype/truetype"
-	"golang.org/x/image/font"
+	// "github.com/gopxl/pixel/v2/ext/text"
 )
 
 type PixelGameController struct {
@@ -31,12 +26,7 @@ type PixelGameController struct {
 
 	// textAtlas					*text.Atlas
 	// debugAtlas					*text.Atlas
-
-
-	// Tile Manager?
-	// Menu Manager?
-	// Options Manager?
-	// SaveFile Manager?
+	Resources					*PixelResourceController
 }
 
 func (game *PixelGameController) Launch(gameData PixelGameData) {
@@ -62,51 +52,6 @@ func (game *PixelGameController) SetScene(name string) {
 	}
 }
 
-func (game *PixelGameController) LoadPicture(path string) (pixel.Picture, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	img, _, err := image.Decode(file)
-	if err != nil {
-		return nil, err
-	}
-	return pixel.PictureDataFromImage(img), nil
-}
-
-func (game *PixelGameController) LoadFont(path string, size float64) (*text.Atlas, error) {
-	face, err := game.LoadTTF(path, size)
-	if err != nil {
-		return nil, err
-	}
-	return text.NewAtlas(face, text.ASCII), nil
-}
-
-func (game *PixelGameController) LoadTTF(path string, size float64) (font.Face, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	bytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		return nil, err
-	}
-
-	font, err := truetype.Parse(bytes)
-	if err != nil {
-		return nil, err
-	}
-
-	return truetype.NewFace(font, &truetype.Options{
-		Size:              size,
-		GlyphCacheEntries: 1,
-	}), nil
-}
-
-
 
 func (game *PixelGameController) Log(msg ...interface{}) {
 	if (game.DebugMode) {
@@ -116,6 +61,8 @@ func (game *PixelGameController) Log(msg ...interface{}) {
 
 
 func (game *PixelGameController) Init() {
+	game.Resources = new(PixelResourceController)
+	game.Resources.Init(game)
 	game.gameData.Init(game)
 	// Init all the scenes
 	for _, scene := range game.Scenes {
@@ -151,6 +98,7 @@ func (game *PixelGameController) DoRun() {
 		dt := time.Since(last).Seconds()
 		last = time.Now()
 		
+		game.Scenes[game.CurrentScene].HandleKey(game, win, dt)
 		game.Scenes[game.CurrentScene].Render(game, win, dt)
 		
 		win.Update()
