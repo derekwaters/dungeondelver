@@ -63,7 +63,7 @@ func (scene *PixelMenuScene) Render(game *PixelGameController, win *opengl.Windo
 	}
 	scene.titleText.Clear()
 	scene.menuText.Clear()
-	fmt.Fprintf(scene.titleText, "%s", scene.data.Title)
+	fmt.Fprintf(scene.titleText, "%s", game.gameData.GetTitle())
 	fmt.Fprintf(scene.menuText, "%s", totalText)
 	scene.titleText.Draw(win, pixel.IM)
 	scene.menuText.Draw(win, pixel.IM)

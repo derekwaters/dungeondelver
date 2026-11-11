@@ -17,7 +17,6 @@ func NewDungeonMenuData(controller *framework.PixelGameController) framework.Pix
 		BackgroundImageTag: "menubg",
 		MenuFontTag: "menu",
 		TitleFontTag: "menutitle",
-		Title: "Delve The Dungeon",
 		MenuOptions: options,
 		NewGameSceneName: "room",
 		AboutSceneName: "debug",
