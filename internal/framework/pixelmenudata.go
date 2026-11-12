@@ -26,7 +26,6 @@ type PixelMenuData struct {
 	BackgroundImageTag	string
 	TitleFontTag string
 	MenuFontTag	string
-	Title string
 	MenuOptions []PixelMenuSelection
 	NewGameSceneName string
 	AboutSceneName string
